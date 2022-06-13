@@ -63,7 +63,7 @@ def process_page(page: Page, output_dir: str, ns: argparse.Namespace) -> str:
     if utils.unit(page.width) == '%' or utils.unit(page.height) == '%':
         raise Exception(f'Percentage(%) is not supported for page size')
 
-    if ns.ruling and not ns.annot:
+    if ns.remove_ruling and not ns.annot:
         page.remove_ruleline()
     
     if ns.annot:
