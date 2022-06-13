@@ -24,6 +24,7 @@ def arg_parser():
                         help='Specify pages to convert (e.g. "1 2 3", "1-3") (default: all)')
     parser.add_argument('-s', '--scale', action='store', type=float, default=1.0,
                         help='Scale page size (default: 1.0)')
+    parser.add_argument('-r', '--remove-ruling', action='store_true', help='Remove page ruling')
     return parser
 
 def read_svg(filename: str) -> str:
@@ -62,6 +63,9 @@ def process_page(page: Page, output_dir: str, ns: argparse.Namespace) -> str:
     if utils.unit(page.width) == '%' or utils.unit(page.height) == '%':
         raise Exception(f'Percentage(%) is not supported for page size')
 
+    if ns.ruling and not ns.annot:
+        page.remove_ruleline()
+    
     if ns.annot:
         pdf_file = get_pdf_file(page, ns)
         pdf_page_num = get_pdf_pagenum(page)
